@@ -5,6 +5,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from pathlib import Path
 
+from passwordless import LOGIN_TYPE
+
 BASE_PATH = Path(__file__).parent
 STATIC_FOLDER = BASE_PATH.joinpath("static")
 TEMPLATES_FOLDER = BASE_PATH.joinpath("templates")
@@ -20,7 +22,8 @@ templates = Jinja2Templates(directory=TEMPLATES_FOLDER)
 @app.get("/", response_class=HTMLResponse)
 async def homepage(request: Request):
     context = {
-        "request": request
+        "request": request,
+        "login_type": LOGIN_TYPE
     }
     return templates.TemplateResponse("index.html", context)
 

@@ -8,14 +8,23 @@ packages = [{include = "passwordless_login", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi = "^0.95.0"
+uvicorn = {extras = ["standard"], version = "^0.21.1"}
+jinja2 = "^3.1.2"
 
 
 [tool.poetry.group.dev.dependencies]
 poethepoet = "^0.19.0"
+autopep8 = "^2.0.2"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.pyright]
+reportUnknownMemberType = false
+
 [tool.poe.tasks]
-start = "python src/passwordless_login/main.py"
+start = "uvicorn passwordless_login.main:app --reload"
+
+

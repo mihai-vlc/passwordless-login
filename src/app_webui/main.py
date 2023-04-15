@@ -1,4 +1,3 @@
-import os
 from app_webui.config import APP_SESSION_KEY, STATIC_FOLDER, TEMPLATES_FOLDER
 from passwordless import LOGIN_TYPE
 from fastapi import FastAPI, Request
@@ -6,7 +5,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from starsessions import CookieStore, SessionAutoloadMiddleware, SessionMiddleware
+from starsessions import CookieStore, SessionAutoloadMiddleware, SessionMiddleware, regenerate_session_id
+
 
 app = FastAPI()
 
@@ -31,6 +31,7 @@ async def homepage(request: Request):
 
 @app.get("/login", response_class=RedirectResponse)
 async def login(request: Request):
+    regenerate_session_id(request)
     request.session["username"] = "mihai"
     return "/"
 
